@@ -1,0 +1,45 @@
+<!DOCTYPE>
+<html data-ng-app="myApp">
+<head>
+	<title>Context List App</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container" data-ng-controller="AppCtrl">
+		<h1>Content List app</h1>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Number</th>
+					<th>Action</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><input class="form-control" data-ng-model="contact.name" /></td>
+					<td><input class="form-control" data-ng-model="contact.email" /></td>
+					<td><input class="form-control" data-ng-model="contact.number" /></td>
+					<td><button class="btn btn-primary" data-ng-click="addContact()">Add Contact</button></td>
+					<td><button class="btn btn-info" data-ng-click="updateContact()">Update Contact</button></td>
+				</tr>
+				<tr data-ng-repeat="contact in contactList">
+					<td>{{contact.name}}</td>
+					<td>{{contact.email}}</td>
+					<td>{{contact.number}}</td>
+					<td><button class="btn btn-danger" data-ng-click="removeContact(contact._id)">Remove Contact</button></td>
+					<td><button class="btn btn-warning" data-ng-click="editContact(contact._id)">Edit Contact</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+	<script src="controllers/controller.js"></script>
+</body>
+</html>
