@@ -13,6 +13,7 @@ app.get("/test",function(request,response)	{
 
 app.get("/contactList",function(request,response)	{
 	db.contactlist.find(function(error,docs){
+		console.log("error - " + error);
 		response.json(docs);
 	});
 });
@@ -20,12 +21,14 @@ app.get("/contactList",function(request,response)	{
 app.get("/contactList/:id",function(request,response)	{
 	var id = request.params.id;
 	db.contactlist.findOne({_id: mongojs.ObjectId(id)},function(error,doc){
+		console.log("error - " + error);
 		response.json(doc);
 	});
 });
 
 app.post("/contactList",function(request,response)	{
 	db.contactlist.insert(request.body,function(error,docs)	{
+		console.log("error - " + error);
 		response.json(docs);
 	});
 });
@@ -33,30 +36,34 @@ app.post("/contactList",function(request,response)	{
 app.put("/contactList/:id",function(request,response)	{
 	var id = request.params.id;
 	var contact = request.body;
-	delete contact._id;
 	console.log(id);
 	var query = {_id: mongojs.ObjectId(id)};
-	var update = {$set: contact,new: true};
-	db.contactlist.findAndModify(query,update,function(error,doc){
-		console.log("here we are");
-		if (!error && doc.ok)	{
-			response.json(doc);
+	var update = {$set: updateObject(contact)};
+	var queryAndUpdate = {query: query,update: update,new: true};
+	db.contactlist.findAndModify(queryAndUpdate,function(error,doc){
+		if (error)	{
+			throw error;
 		}
 		else	{
-			error;
+			response.json(doc);
 		}
 		
 	});
+	
 });	
 
 app.delete("/contactList/:id",function(request,response)	{
 	var id = request.params.id;
 	db.contactlist.remove({_id: mongojs.ObjectId(id)},function(error,doc)	{
+		console.log("error - " + error);
 		response.json(doc);
 	});
 });
 
+function updateObject(obj)	{
+	delete obj._id
+	return obj;
+}
+
 app.listen(3000);
 console.log("Running my server");
-
-[{name: "Emily", email: "emily@email.com", number: "(222) 222-2222" },{ name: "John", email: "john@email.com", number: "(333) 333-3333"}]

@@ -25,6 +25,7 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 
 	$scope.updateContact = function()	{
 		$http.put("/contactList/{id}".replace("{id}",$scope.contact._id),$scope.contact).success(function(response)	{
+			$scope.contact = "";
 			 refresh();
 		});
 	};
